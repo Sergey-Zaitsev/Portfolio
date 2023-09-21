@@ -1,0 +1,40 @@
+version: '3.3'
+
+volumes:
+  frontend_value:
+  static_value:
+  media_value:
+
+services:
+  db:
+    image: postgres:13.0-alpine
+    env_file: .env
+    volumes:
+      - /var/lib/postgresql/data
+
+  frontend:
+    image: sergeyzaitsev33/foodgram_frontend
+    command: cp -r /app/build/. /frontend_static/
+    volumes:
+      - frontend_value:/frontend_static/
+    depends_on:
+      - backend
+
+  backend:
+    image: sergeyzaitsev33/foodgram_backend
+    env_file: .env
+    volumes:
+      - static_value:/app/backend_static/
+      - media_value:/app/media/
+    depends_on:
+      - db
+
+  nginx:
+    image: sergeyzaitsev33/foodgram_gateway
+    ports:
+      - "10000:80"
+    volumes:
+      - frontend_value:/usr/share/nginx/html/
+      - ./docs/:/usr/share/nginx/html/api/docs/
+      - static_value:/var/html/static/
+      - media_value:/var/html/media/
