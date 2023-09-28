@@ -117,8 +117,3 @@ https://foodgram196.myddns.me
 ```
 https://foodgram196.myddns.me/admin/
 ```
-
-Логин(эл.почта): foodgram@mail.ru
-
-Пароль: Fcnfkfdbcnf
-
